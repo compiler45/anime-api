@@ -4,13 +4,18 @@ from api.models import Anime, Character
 
 
 class CharacterSerializer(serializers.ModelSerializer):
+    anime = serializers.StringRelatedField()
+    gender = serializers.CharField(source='get_gender_display')
+
     class Meta:
         model = Character
+        fields = ('name', 'anime', 'description', 'gender')
 
 
 class AnimeSerializer(serializers.ModelSerializer):
     # tags cannot be easily serialized by default
     genres = serializers.SerializerMethodField()
+    characters = serializers.SerializerMethodField()
 
     class Meta:
         model = Anime

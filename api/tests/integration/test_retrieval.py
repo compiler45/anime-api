@@ -78,3 +78,27 @@ class AnimeDetailAPITestCase(APIRetrievalTestCaseBase):
             }]
         )
 
+
+class CharacterListAPITestCase(APIRetrievalTestCaseBase):
+
+    def test_can_retrieve_all_characters(self):
+        anime = Anime.objects.get(id=1) 
+        Character.objects.create(name='Kirito', description='SAO protagonist', gender='M', anime=anime)
+        Character.objects.create(name='Asuna', description='Another SAO protagonist', gender='F', anime=anime)
+        resp = self.client.get('/api/v1/characters/').data
+        self.assertEqual(len(resp), 2)
+
+
+class CharacterAPIDetailTestCase(APIRetrievalTestCaseBase):
+
+    def test_can_retrieve_character_details(self):
+        anime = Anime.objects.get(id=1) 
+        Character.objects.create(name='Kirito', description='SAO protagonist', gender='M', anime=anime)
+        resp = self.client.get('/api/v1/characters/1/').data
+        self.assertEqual(resp,
+                        {
+                            'name': 'Kirito',
+                            'description': 'SAO protagonist',
+                            'gender': 'Male',
+                            'anime': anime.name,
+                        })
