@@ -7,7 +7,7 @@ from taggit.managers import TaggableManager
 class Anime(models.Model):
     name = models.CharField(max_length=100)
     year_began = models.SmallIntegerField()
-    year_ended = models.SmallIntegerField()
+    year_ended = models.SmallIntegerField()  # what if the anime is ongoing?
     synopsis = models.TextField()
     genres = TaggableManager()
     

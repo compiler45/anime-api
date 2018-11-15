@@ -9,3 +9,8 @@ from api.serializers import AnimeSerializer
 class AnimeListView(generics.ListAPIView):
     queryset = Anime.objects.all()
     serializer_class = AnimeSerializer
+
+
+class AnimeDetailView(generics.RetrieveAPIView):
+    queryset = Anime.objects.all()
+    serializer_class = AnimeSerializer
