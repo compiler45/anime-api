@@ -28,17 +28,8 @@ class AnimeSerializer(serializers.ModelSerializer):
             genre.name for genre in anime_obj.genres.all()
         ]
     
-    def to_representation(self, anime_obj):
-        resp = super().to_representation(anime_obj)
-        # return the name and id for each character, not just the id
-        character_ids = resp['characters']  
-        new_character_resp = list()
-        for character_id in character_ids:
-            character = Character.objects.get(id=character_id)
-            new_character_resp.append(
-                {'id': character_id,
-                 'name': character.name}
-            )
-
-        resp['characters'] = new_character_resp
-        return resp
+    def get_characters(self, anime_obj):
+        return [
+            {'id': character.id, 'name': character.name} for
+            character in anime_obj.characters.all()
+        ]
