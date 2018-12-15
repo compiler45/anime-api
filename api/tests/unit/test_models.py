@@ -19,11 +19,11 @@ class AnimeModelTestCase(TestCase):
     def test_anime_string_representation_is_equal_to_name(self):
        self.assertEqual(str(self.anime), 'Cowboy Bebop')
 
-    def test_can_add_genres_to_an_anime(self):
+    def test_update_anime_with_new_genres_check_database(self):
         self.anime.genres.add("action", "adventure", "existential")
         self.assertEqual(len(self.anime.genres.all()), 3)
 
-    def test_can_add_a_character_to_an_anime(self):
+    def test_create_character_with_valid_details_check_added_to_database(self):
         spike = Character(
             name='Spike Spiegel',
             description='Cool bounty hunter on a lone search for a lost love...',
@@ -32,7 +32,7 @@ class AnimeModelTestCase(TestCase):
         spike.anime = self.anime
         spike.save()
         self.assertEqual(len(self.anime.characters.all()), 1)
-    
+
 
 class CharacterModelTestCase(TestCase):
 

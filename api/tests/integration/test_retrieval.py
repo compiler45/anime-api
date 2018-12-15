@@ -16,25 +16,25 @@ class APIRetrievalTestCaseBase(APITestCase):
 
 class AnimeListAPITestCase(APIRetrievalTestCaseBase):
 
-    def test_hitting_all_animes_endpoint_gives_200_status_code(self):
+    def test_get_check_endpoint_gives_200_status_code(self):
         response = self.client.get('/api/v1/animes/')
         self.assertEqual(response.status_code, 200)
 
-    def test_response_contains_number_of_results_equal_to_number_in_database(self):
+    def test_get_check_response_contains_number_of_results_equal_to_number_in_database(self):
         response_data = self.client.get('/api/v1/animes/').data
         self.assertEqual(len(response_data), Anime.objects.count())
 
 
 class AnimeDetailAPITestCase(APIRetrievalTestCaseBase):
 
-    def test_hitting_single_anime_endpoint_gives_200_status_code(self):
+    def test_get_check_endpoint_gives_200_status_code(self):
         response = self.client.get('/api/v1/animes/1/')
 
-    def test_only_ever_get_one_result_for_detail_view(self):
+    def test_get_check_only_one_result_in_response(self):
         response_data = self.client.get('/api/v1/animes/').data
         self.assertEqual(len(response_data), 1)
 
-    def test_response_contains_correct_details_of_requested_anime(self):
+    def test_get_check_response_contains_correct_details_of_requested_anime(self):
         anime_data = self.client.get('/api/v1/animes/1/').data
         anime = Anime.objects.get(id=1)
         self.assertEqual(anime_data['name'], anime.name)
@@ -42,7 +42,7 @@ class AnimeDetailAPITestCase(APIRetrievalTestCaseBase):
         self.assertEqual(anime_data['year_ended'], anime.year_ended)
         self.assertEqual(anime_data['synopsis'], anime.synopsis)
 
-    def test_correct_fields_show_up_in_response(self):
+    def test_get_check_correct_fields_show_up_in_response(self):
         anime_data = self.client.get('/api/v1/animes/1/').data
         self.assertSetEqual(set(anime_data.keys()),
                              {
@@ -54,7 +54,7 @@ class AnimeDetailAPITestCase(APIRetrievalTestCaseBase):
                                  'characters',
                              })
 
-    def test_anime_genres_included_in_response(self):                       
+    def test_get_check_response_contains_right_genres(self):                       
         anime = Anime.objects.get(id=1)
         anime.genres.add(Tag.objects.create(name='seinen'))
         anime.save()
@@ -63,7 +63,7 @@ class AnimeDetailAPITestCase(APIRetrievalTestCaseBase):
         genres = anime_data['genres']
         self.assertEqual(genres, ['seinen'])
 
-    def test_anime_characters_should_have_name_and_id_in_response(self):
+    def test_get_check_id_and_name_in_response(self):
         anime = Anime.objects.get(id=1) 
         character = Character.objects.create(name='Kirito', description='SAO protagonist', gender='M', anime=anime)
         character.save()
@@ -81,7 +81,7 @@ class AnimeDetailAPITestCase(APIRetrievalTestCaseBase):
 
 class CharacterListAPITestCase(APIRetrievalTestCaseBase):
 
-    def test_can_retrieve_all_characters(self):
+    def test_get_characters_check_response_length(self):
         anime = Anime.objects.get(id=1) 
         Character.objects.create(name='Kirito', description='SAO protagonist', gender='M', anime=anime)
         Character.objects.create(name='Asuna', description='Another SAO protagonist', gender='F', anime=anime)
@@ -91,7 +91,7 @@ class CharacterListAPITestCase(APIRetrievalTestCaseBase):
 
 class CharacterAPIDetailTestCase(APIRetrievalTestCaseBase):
 
-    def test_can_retrieve_character_details(self):
+    def test_get_check_correct_details_returned(self):
         anime = Anime.objects.get(id=1) 
         Character.objects.create(name='Kirito', description='SAO protagonist', gender='M', anime=anime)
         resp = self.client.get('/api/v1/characters/1/').data
