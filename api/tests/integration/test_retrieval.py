@@ -78,6 +78,17 @@ class AnimeDetailAPITestCase(APIRetrievalTestCaseBase):
             }]
         )
 
+    def test_get_with_year_ended_set_to_null_check_value(self):
+        """
+        When an Anime has a None value for 'year_ended', the JSON
+        value should be N/A
+        """
+        anime = Anime.objects.get(id=1)
+        anime.year_ended = None
+        anime.save()
+        anime_data = self.client.get('/api/v1/animes/1/').data
+        self.assertEqual(anime_data['year_ended'], 'N/A')
+
 
 class CharacterListAPITestCase(APIRetrievalTestCaseBase):
 

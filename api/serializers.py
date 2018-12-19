@@ -13,7 +13,6 @@ class CharacterSerializer(serializers.ModelSerializer):
 
 
 class AnimeSerializer(serializers.ModelSerializer):
-    # tags cannot be easily serialized by default
     genres = serializers.SerializerMethodField()
     characters = serializers.SerializerMethodField()
 
@@ -32,3 +31,10 @@ class AnimeSerializer(serializers.ModelSerializer):
             {'id': character.id, 'name': character.name} for
             character in anime_obj.characters.all()
         ]
+    
+    def to_representation(self, obj):
+        resp = super().to_representation(obj)
+        if resp['year_ended'] is None:
+            resp['year_ended'] = 'N/A'
+
+        return resp
