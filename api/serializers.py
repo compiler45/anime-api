@@ -22,7 +22,6 @@ class AnimeSerializer(serializers.ModelSerializer):
         fields = ('name', 'year_began', 'year_ended', 'synopsis',
                   'genres', 'characters')
         
-
     def get_genres(self, anime_obj):
         return [
             genre.name for genre in anime_obj.genres.all()

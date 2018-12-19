@@ -10,12 +10,13 @@ class AdminViewTestCase(TestCase):
                                                  email='maetel@galaxy.com',
                                                  password='fantasy')
 
-    def test_can_reach_anime_section_on_admin_site(self):
+    def setUp(self):
         self.client.login(username='maetel', password='fantasy')
+
+    def test_can_reach_anime_section_on_admin_site(self):
         response = self.client.get('/admin/api/anime/')
         self.assertEqual(response.status_code, 200)
     
     def test_can_reach_character_section_on_admin_site(self):
-        resp = self.client.login(username='maetel', password='fantasy')
         response = self.client.get('/admin/api/character/')
         self.assertEqual(response.status_code, 200)

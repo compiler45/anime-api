@@ -11,7 +11,7 @@ class Anime(models.Model):
     year_ended = models.PositiveSmallIntegerField(null=True)
     synopsis = models.TextField()
     genres = TaggableManager()
-    
+
     def clean(self, *args, **kwargs):
         super().clean(*args, **kwargs)
 

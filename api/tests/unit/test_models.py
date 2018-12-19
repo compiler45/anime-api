@@ -81,7 +81,7 @@ class CharacterModelTestCase(TestCase):
 
     def test_create_with_same_character_in_same_anime_check_integrity_error_is_thrown(self):
         Character.objects.create(name='Jet', description='Arm-less bounty hunter',
-                                 gender='M', anime=self.anime) 
+                                 gender='M', anime=self.anime)
         self.assertRaises(
             IntegrityError,
             Character.objects.create,
