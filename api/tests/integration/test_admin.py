@@ -15,8 +15,8 @@ class AdminViewTestCase(TestCase):
 
     def test_can_reach_anime_section_on_admin_site(self):
         response = self.client.get('/admin/api/anime/')
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
     
     def test_can_reach_character_section_on_admin_site(self):
         response = self.client.get('/admin/api/character/')
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
