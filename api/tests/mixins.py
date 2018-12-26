@@ -11,10 +11,10 @@ class ListViewTestCasePermissionsMixin:
     def test_request_with_admin_check_can_make_requests_with_all_methods(
         self, admin_user, client, method
     ):
-        client.login()
+        client.login(username="admin", password="password")
 
         response = getattr(client, method)(self.URL)
-        assert response.status_code != status.HTTP_405_METHOD_NOT_ALLOWED
+        assert response.status_code != status.HTTP_403_FORBIDDEN
 
     @pytest.mark.parametrize("method", ['get', 'head', 'options', 'post'])
     def test_request_with_anonymous_user_check_can_make_requests_with_safe_but_not_unsafe_methods(
