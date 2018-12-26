@@ -1,4 +1,5 @@
-from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.viewsets import ModelViewSet
 
 from api.models import Anime, Character
 from api.serializers import AnimeSerializer, CharacterSerializer
@@ -6,21 +7,14 @@ from api.serializers import AnimeSerializer, CharacterSerializer
 # Create your views here.
 
 
-class AnimeListView(generics.ListAPIView):
+class AnimeViewSet(ModelViewSet):
     queryset = Anime.objects.all()
     serializer_class = AnimeSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    
 
-
-class AnimeDetailView(generics.RetrieveAPIView):
-    queryset = Anime.objects.all()
-    serializer_class = AnimeSerializer
-
-
-class CharacterListView(generics.ListAPIView):
+class CharacterViewSet(ModelViewSet):
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
-
-class CharacterDetailView(generics.RetrieveAPIView):
-    queryset = Character.objects.all()
-    serializer_class = CharacterSerializer

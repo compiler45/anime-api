@@ -28,8 +28,8 @@ class AnimeSerializer(serializers.ModelSerializer):
     
     def get_characters(self, anime_obj):
         return [
-            {'id': character.id, 'name': character.name} for
-            character in anime_obj.characters.all()
+            {'id': character.id, 'name': character.name}
+            for character in anime_obj.characters.all()
         ]
     
     def to_representation(self, obj):
