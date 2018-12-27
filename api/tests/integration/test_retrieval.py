@@ -10,7 +10,7 @@ from api.tests.mixins import DetailViewTestCasePermissionsMixin, ListViewTestCas
 @pytest.fixture(autouse=True)
 def anime(db):
     return Anime.objects.create(name='Sword Art Online', year_began=2001,
-                                year_ended=2009, synopsis='Cool anime about MMOPRGs.') 
+                                year_ended=2009, synopsis='Cool anime about MMOPRGs.')
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ class AnimeListAPITestCase(ListViewTestCasePermissionsMixin):
 
     def test_get_check_response_contains_number_of_results_equal_to_number_in_database(self, client):
         response_data = client.get(self.URL).data
-        assert len(response_data) == 1
+        assert len(response_data['results']) == 1
 
 
 class AnimeDetailAPITestCase(DetailViewTestCasePermissionsMixin):
@@ -94,7 +94,7 @@ class CharacterListAPITestCase(ListViewTestCasePermissionsMixin):
         anime = Anime.objects.get(id=1)
         Character.objects.create(name='Asuna', description='Another SAO protagonist', gender='F', anime=anime)
         resp = client.get(self.URL).data
-        assert len(resp) == 2
+        assert len(resp['results']) == 2
 
 
 class CharacterAPIDetailTestCase(DetailViewTestCasePermissionsMixin):

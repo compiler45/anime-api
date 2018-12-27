@@ -1,6 +1,5 @@
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.db.utils import IntegrityError
-from django.test import TestCase
 
 import pytest
 
